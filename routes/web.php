@@ -11,12 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'MainController@Index');
 
 Route::group(['middleware' => 'auth'], function () {
-  
+
  });
 
 Route::get('login', 'AuthController@redirectToProvider');
