@@ -15,9 +15,14 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('spotify_id')->unique();
             $table->string('name');
+            $table->integer('party_id');
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('country')->nullable();
+            $table->string('product')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -30,6 +35,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('users');
     }
 }
