@@ -17,7 +17,7 @@ class CreatePartiesTable extends Migration
           $table->increments('id');
           $table->string('name');
           $table->string('password')->nullable();
-          $table->integer('host')->unsigned();
+          $table->integer('host_id')->unsigned();
           $table->integer('threshold')->unsigned()->default(5);
           $table->integer('created_by')->unsigned();
           $table->integer('queue')->default(0);
