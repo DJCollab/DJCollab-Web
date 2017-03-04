@@ -18,7 +18,7 @@ class CreateForeignKeys extends Migration
       });
 
       Schema::table('parties', function($table) {
-        $table->foreign('host')->references('id')->on('users');
+        $table->foreign('host_id')->references('id')->on('users');
         $table->foreign('created_by')->references('id')->on('users');
       });
 
