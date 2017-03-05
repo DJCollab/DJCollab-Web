@@ -64,30 +64,29 @@
 <section class="panel color2-alt" id="first">
     <div class="inner columns aligned">
         <div class="span-3-5">
-            <h3 class="major">All Parties</h3>
+            <h3 class="major">Your Parties</h3>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Password</th>
-                            <th>Join</th>
+
+                            <th class="text-center">View</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($parties as $party)
                         <tr>
                             <td>{{ $party->name }}</td>
-                            <td><input type="password" name="createpassword" id="createpassword" value="" placeholder="secret" required /></td>
-                            <td><input type="submit" value="Join Party" class="small color2" /></td>
+                            <td class="text-center"><a href="{{ url('/dashboard/party/' .$party->id) }}" class="button small color1">View</a></td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td>100.00</td>
-                        </tr>
+                      <tr>
+                        <td colspan="1"></td>
+                        <td class="text-center"><a href="{{ $parties->previousPageUrl() }}" class="button special color1 circle icon fa-angle-left">Prev</a><a href="{{ $parties->nextPageUrl() }}" class="button special color1 circle icon fa-angle-right">Next</a></td>
+                      </tr>
                     </tfoot>
                 </table>
             </div>
@@ -95,14 +94,6 @@
     </div>
 </section>
 
-
-<section class="panel color2-alt" id="first">
-    <div class="inner columns aligned">
-        <div class="span-3-5">
-            <h3 class="major">Current Party</h3>
-        </div>
-    </div>
-</section>
 
 <section class="panel color2-alt" id="first">
     <div class="inner columns aligned">

@@ -13,7 +13,7 @@
     <nav>
       <ul>
         @if(Auth::check())
-        <li><a href="{{ url('/dashboard')}}">My Profile</a></li>
+        <li><a href="{{ url('/dashboard')}}">Dashboard</a></li>
         <li><a href="{{ url('/logout')}}">Sign Out</a></li>
         @else
         <li><a href="{{ url('/login')}}">Log In</a></li>

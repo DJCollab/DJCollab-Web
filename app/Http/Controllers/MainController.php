@@ -60,4 +60,9 @@ class MainController extends Controller
         flash('Party Created Successfully!', 'success');
         return redirect()->action("MainController@dashboard");
     }
+
+    public function ViewParty($id = null)
+    {
+        return view('party');
+    }
 }
