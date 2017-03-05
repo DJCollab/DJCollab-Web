@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Party;
 use Auth;
+use Route;
 
 class MainController extends Controller
 {
@@ -24,10 +25,24 @@ class MainController extends Controller
     {
         $this->validate($request, [
             "createname" => "required|string|max:255",
-            "createpassword" => "required|string|max:255",
-            "createcpassword" => "required|string|max:255",
-            "createthreshold" => "required|integer"
+            "createpassword" => "string|max:255",
+            "createcpassword" => "string|max:255",
+            "createthreshold" => "integer"
         ]);
+
+
+        $request = Request::create('/api/party', 'PUT', array(
+             "name"     => $request->createname,
+             "threshold"    => $request->createthreshold,
+             "user-id"    => Auth::user()->id
+        ));
+        dd($request);
+        $response = Route::dispatch($request);
+        //return $response;
+        dd($response);
+
+
+
 
         $party = new Party();
         $party->name = $request->createname;
