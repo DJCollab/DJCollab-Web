@@ -16,12 +16,11 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('spotify_id')->unique();
-            $table->string('name');
+            $table->string('name')->default("");
             $table->string('email')->unique();
-            $table->string('password')->nullable();
-            $table->string('avatar')->nullable();
-            $table->string('country')->nullable();
-            $table->string('product')->nullable();
+            $table->string('avatar')->default("");
+            $table->string('country')->default("");
+            $table->string('product')->default("");
             $table->rememberToken();
             $table->timestamps();
         });

@@ -20,6 +20,6 @@ class Queue extends Model
 
     public function Party()
     {
-        return $this->belongsTo('App\Party', 'id');
+        return $this->belongsTo('App\Party', 'party_id');
     }
 }

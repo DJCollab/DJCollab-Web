@@ -13,15 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => ['auth:api']], function () {
-  Route::put('/party/create/{name}/{threshold}/{password?}', 'API\PartyController@CreateParty');
-  Route::post('/party/{partyId}/password/{password}', 'API\PartyController@SetPassword');
-  Route::post('/party/{partyId}/threshold/{threshold}', 'API\PartyController@SetThreshold');
-  Route::post('/party/{partyId}/host/{userId}', 'API\PartyController@TransferHost');
-  Route::put('/party/{partyId}/song/{songId}', 'API\PartyController@AddSong');
-  Route::delete('/party/{partyId}/song/{songId}', 'API\PartyController@RemoveSong');
-  Route::post('/party/{partyId}/song/{songId}/upvote', 'API\PartyController@UpvoteSong');
-  Route::post('/party/{partyId}/song/{songId}/downvote', 'API\PartyController@DownvoteSong');
-  Route::delete('/party/{partyId}', 'API\PartyController@DeleteParty');
-  Route::get('/party/{partyId}', 'API\PartyController@Party');
-});
+Route::put('/party', 'API\PartyController@CreateParty');
+Route::post('/party', 'API\PartyController@UpdateParty');
+Route::put('/party/song', 'API\PartyController@AddSong');
+Route::delete('/party/song', 'API\PartyController@DeleteSong');
+Route::post('/party/up', 'API\PartyController@UpvoteSong');
+Route::post('/party/down', 'API\PartyController@DownvoteSong');
+Route::delete('/party', 'API\PartyController@DeleteParty');
+Route::get('/party', 'API\PartyController@Party');
+Route::get('/queue', 'API\PartyController@Queue');
