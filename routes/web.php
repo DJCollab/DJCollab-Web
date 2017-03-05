@@ -16,6 +16,7 @@ Route::get('/', 'MainController@Index');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('dashboard', 'MainController@dashboard');
+    Route::post('dashboard/create', 'MainController@create');
 
  });
 

@@ -29,11 +29,11 @@ class Party extends Model
 
     public function Host()
     {
-        return $this->belongsTo('App\User', 'id');
+        return $this->belongsTo('App\User', 'host_id');
     }
 
     public function CreatedBy()
     {
-        return $this->belongsTo('App\User', 'id');
+        return $this->belongsTo('App\User', 'created_by');
     }
 }

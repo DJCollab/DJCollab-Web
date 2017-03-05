@@ -22,6 +22,11 @@ class CreateForeignKeys extends Migration
         $table->foreign('created_by')->references('id')->on('users');
       });
 
+      Schema::table('party_joins', function($table) {
+        $table->foreign('user_id')->references('id')->on('users');
+        $table->foreign('party_id')->references('id')->on('parties');
+      });
+
     }
 
     /**
