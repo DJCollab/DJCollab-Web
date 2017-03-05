@@ -70,15 +70,28 @@ class MainController extends Controller
 
     public function AddSong($id, $songid)
     {
+
+        $address = "https://api.spotify.com/v1/tracks/";
+        $song = explode(":", $songid);
+        $address .= $song[0];
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_RETURNTRANSFER => 1,
+          CURLOPT_URL => $address,
+
+        ));
+        $result = json_decode(curl_exec($curl));
+
       $party = Party::where('id', $id)->first();
       if($party != null) {
         $queue = new Queue();
         $queue->Party()->associate($party);
         $queue->song_id = "spotify:track:".$songid;
-        $queue->title = "";
-        $queue->artist = "";
-        $queue->album = "";
-        $queue->album_image = "";
+        $queue->title = $result->name;
+        $queue->artist = $result->artists[0]->name;
+        $queue->album = $result->album->name;
+        $queue->album_image = $result->album->images[0]->url;
         $queue->votes = 0;
         $queue->save();
         return redirect()->back();
