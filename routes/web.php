@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,15 +12,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'MainController@Index');
 
 Route::group(['middleware' => 'auth'], function () {
-  
+    Route::get('dashboard', 'MainController@dashboard');
+    Route::post('dashboard/create', 'MainController@create');
+
  });
 
-Route::get('login', 'AuthController@redirectToProvider');
+Route::get('login', 'Auth\AuthController@redirectToProvider');
 Route::get('auth/spotify', 'AuthController@redirectToProvider');
-Route::get('auth/spotify/callback', 'AuthController@handleProviderCallback');
+Route::get('auth/spotify/callback', 'Auth\AuthController@handleProviderCallback');
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
