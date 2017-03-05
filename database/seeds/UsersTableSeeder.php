@@ -14,7 +14,6 @@ class UsersTableSeeder extends Seeder
     {
         User::insert([
           'name' => 'root', 'spotify_id' => '1', 'email' => 'root@root.com',
-          'password' => bcrypt('secret')
           ]);
     }
 }
