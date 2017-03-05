@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::insert([
-          'name' => 'root', 'spotify_id' => '1', 'email' => 'root@root.com', 'party_id' => '1',
+          'name' => 'root', 'spotify_id' => '1', 'email' => 'root@root.com',
           'password' => bcrypt('secret')
           ]);
     }

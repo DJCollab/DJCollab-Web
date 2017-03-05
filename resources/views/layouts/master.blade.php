@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>DJCollab</title>
+  <title>DJCollab | @yield('title')</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <link href="{{ URL::asset('css/main.css') }}" rel="stylesheet">
@@ -13,11 +13,10 @@
     <nav>
       <ul>
         @if(Auth::check())
-        <li><a href="#">My Profile</a></li>
-        <li><a href="#">Sign Out</a></li>
+        <li><a href="{{ url('/dashboard')}}">My Profile</a></li>
+        <li><a href="{{ url('/logout')}}">Sign Out</a></li>
         @else
-        <li><a href="#">Log In</a></li>
-        <li><a href="#">Register</a></li>
+        <li><a href="{{ url('/login')}}">Log In</a></li>
         @endif
       </ul>
     </nav>

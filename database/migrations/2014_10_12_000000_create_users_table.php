@@ -17,7 +17,6 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->integer('spotify_id')->unique();
             $table->string('name');
-            $table->integer('party_id');
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->string('avatar')->nullable();
