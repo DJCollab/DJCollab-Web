@@ -45,7 +45,7 @@
 
 <section class="panel color2-alt" id="second">
     <div class="inner columns aligned">
-        <div class="span-3-5">
+        <div class="span-5-5">
             <h3 class="major">Party Queue</h3>
             <div class="table-wrapper">
                 <table>
