@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\RequestException;
 use App\Party;
 use Auth;
+use Route;
+use App\User;
 
 class MainController extends Controller
 {
@@ -24,45 +28,54 @@ class MainController extends Controller
     {
         $this->validate($request, [
             "createname" => "required|string|max:255",
-            "createpassword" => "required|string|max:255",
-            "createcpassword" => "required|string|max:255",
-            "createthreshold" => "required|integer"
+            "createthreshold" => "integer"
         ]);
 
-        $party = new Party();
-        $party->name = $request->createname;
-        $party->threshold = $request->createthreshold;
-        $party->CreatedBy()->associate(Auth::user()->id);
-        $party->Host()->associate(Auth::user()->id);
 
+        $client = new Client();
 
-        if($request->input('createpassword') != "" && $request->input('createcpassword') != "")
-        {
-            if(strlen($request->input('createpassword')) >= 5)
-            {
-              if ($request->input('createcpassword') == $request->input('createpassword'))
-              {
-                $party->password = bcrypt($request->input('createpassword'));
-              } else
-              {
-                  flash('Your current password does not match the one you typed in.', 'danger');
-                  return redirect()->action('MainController@dashboard');
-              }
-            }
-            else
-            {
-                flash('Your password must be longer than five characters.');
-                return redirect()->action('MainController@dashboard');
-            }
+        try {
+            $response = $client->put(url('api/party'), [
+                'headers'         => ['X-Foo' => 'Bar'],
+                'form_params'            => [
+                    'name' => $request->input('createname'),
+                    'threshold' => $request->input('createthreshold'),
+                    'user-id' => Auth::user()->id
+                ],
+                'allow_redirects' => false,
+                'timeout'         => 5
+            ]);
+            flash('Created party!', 'success');
+            return redirect()->action("MainController@dashboard");
+        } catch (RequestException $e){
+            //dd($e->getMessage());
+            flash($e->getMessage(), 'danger');
+            return redirect()->action("MainController@dashboard");
         }
-        $party->save();
 
-        flash('Party Created Successfully!', 'success');
-        return redirect()->action("MainController@dashboard");
+
     }
 
     public function ViewParty($id = null)
     {
-        return view('party');
+        if($id != null) {
+            $party = Party::where('id', $id)->first();
+            return view('party', compact('party'));
+        }
+        flash('Error! Invalid ID!', 'danger');
+        return redirect('MainController@dashboard');
     }
+
+    public function SearchSong($id = null)
+    {
+        
+        return redirect()->action('MainController@ViewParty', compact('id'));
+    }
+
+
+
+
+
+
+
 }

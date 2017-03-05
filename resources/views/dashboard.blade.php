@@ -10,11 +10,7 @@
             <div class="alert alert-{{ session('flash_notification.level') }}">
                 <h3>{!! session('flash_notification.message') !!}</h3>
             </div>
-        @elseif(count($errors) > 0)
-            <div class="alert alert-danger">
-                <h3>Error creating the party!</h3>
-            </div>
-        @endif
+            @endif
 
         <h1 class="major">Dashboard</h1>
         <p>You can join parties and create parties from here. You can also add songs to a party! Click the button below to try it out!</p>
@@ -27,7 +23,6 @@
     </div>
 </section>
 
-<!-- Panel (Spotlight) -->
 <section class="panel color2-alt" id="first">
     <div class="inner columns aligned">
         <div class="span-3-5">
@@ -44,11 +39,11 @@
                 </div>
                 <div class="field full">
                     <label for="demo-email">Password</label>
-                    <input type="password" name="createpassword" id="createpassword" value="" placeholder="secret" required />
+                    <input type="password" name="createpassword" id="createpassword" value="" placeholder="secret"  />
                 </div>
                 <div class="field full">
                     <label for="demo-email">Confirm Password</label>
-                    <input type="password" name="createcpassword" id="createcpassword" value="" placeholder="secret" required />
+                    <input type="password" name="createcpassword" id="createcpassword" value="" placeholder="secret"  />
                 </div>
 
 
@@ -61,7 +56,7 @@
     </div>
 </section>
 
-<section class="panel color2-alt" id="first">
+<section class="panel color2-alt" id="second">
     <div class="inner columns aligned">
         <div class="span-3-5">
             <h3 class="major">Your Parties</h3>
@@ -95,10 +90,35 @@
 </section>
 
 
-<section class="panel color2-alt" id="first">
+<section class="panel color2-alt" id="third">
     <div class="inner columns aligned">
         <div class="span-3-5">
             <h3 class="major">Your Profile</h3>
+            <form method="POST" action="{{ url('dashboard/create') }}">
+                {{ csrf_field() }}
+                <div class="field half">
+                    <label for="demo-name">Name</label>
+                    <input type="text" name="createname" id="createname" value="" placeholder="Fire Mixtape" required />
+                </div>
+                <div class="field half">
+                    <label for="demo-name">Skip Song Threshold</label>
+                    <input type="text" name="createthreshold" id="createthreshold" value="" placeholder="5" required />
+                </div>
+                <div class="field full">
+                    <label for="demo-email">Password</label>
+                    <input type="password" name="createpassword" id="createpassword" value="" placeholder="secret" required />
+                </div>
+                <div class="field full">
+                    <label for="demo-email">Confirm Password</label>
+                    <input type="password" name="createcpassword" id="createcpassword" value="" placeholder="secret" required />
+                </div>
+
+
+                <ul class="actions">
+                    <li><input type="submit" value="Create Party" class="special color2" /></li>
+                    <li><input type="reset" value="Reset" /></li>
+                </ul>
+            </form>
         </div>
     </div>
 </section>

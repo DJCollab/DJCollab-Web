@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\API;
-
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
@@ -12,7 +10,6 @@ use App\Queue;
 use App\User;
 use App\Join;
 use Hash;
-
 class PartyController extends Controller
 {
   // Creates a party
@@ -39,7 +36,6 @@ class PartyController extends Controller
     $party->save();
     return Response::json($party, 200);
   }
-
   // Updates a party
   // party-id, name, threshold, user-id, password
   public static function UpdateParty(Request $request)
@@ -63,7 +59,6 @@ class PartyController extends Controller
     $party->save();
     return Response::json($party, 200);
   }
-
   // Adds a song to a party
   // party-id, song-id
   public static function AddSong(Request $request)
@@ -83,7 +78,6 @@ class PartyController extends Controller
     $queue->save();
     return Response::json($queue, 200);
   }
-
   // Deletes a song from a party
   // party-id, song-id
   public static function DeleteSong(Request $request)
@@ -95,7 +89,6 @@ class PartyController extends Controller
     $queue->delete();
     return Response::json(200);
   }
-
   // Upvotes a song in a party
   // party-id, song-id
   public static function UpvoteSong(Request $request)
@@ -108,7 +101,6 @@ class PartyController extends Controller
     $queue->save();
     return Response::json($queue, 200);
   }
-
   // Downvotes a song in a party
   // party-id, song-id
   public static function DownvoteSong(Request $request)
@@ -121,7 +113,6 @@ class PartyController extends Controller
     $queue->save();
     return Response::json($queue, 200);
   }
-
   // Deletes a party
   // party-id, user-id
   public static function DeleteParty(Request $request)
@@ -141,7 +132,6 @@ class PartyController extends Controller
     }
     return Response::json(['error' => "You must be the host of a party to delete it."], 400);
   }
-
   // Returns the party
   // party-id or name
   public static function Party(Request $request)
@@ -159,7 +149,6 @@ class PartyController extends Controller
     }
     return Response::json($party, 200);
   }
-
   // Returns the queue for a party
   // party-id
   public static function Queue(Request $request)
@@ -170,7 +159,6 @@ class PartyController extends Controller
     }
     return Response::json($queue, 200);
   }
-
   // Joins a party
   // party-id, user-id
   public static function JoinParty(Request $request)
