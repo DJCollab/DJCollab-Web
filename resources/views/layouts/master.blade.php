@@ -13,7 +13,11 @@
     <nav>
       <ul>
         @if(Auth::check())
-        <li><a href="{{ url('/dashboard')}}">Dashboard</a></li>
+          @if(Request::is('dashboard'))
+          <li><a href="{{ url('/')}}">Home</a></li>
+          @else
+          <li><a href="{{ url('/dashboard')}}">Dashboard</a></li>
+          @endif
         <li><a href="{{ url('/logout')}}">Sign Out</a></li>
         @else
         <li><a href="{{ url('/login')}}">Log In</a></li>
@@ -22,6 +26,7 @@
     </nav>
     <div id="wrapper">
       @yield('content')
+      <div class="copyright">&copy; DJCollab. Design: <a href="https://html5up.net">HTML5 UP</a>.</div>
     </div>
   </div>
   <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
