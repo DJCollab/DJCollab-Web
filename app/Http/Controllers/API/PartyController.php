@@ -90,7 +90,7 @@ class PartyController extends Controller
     if($party != null) {
       $queue = new Queue();
       $queue->Party()->associate($party);
-      $queue->song_id = "spotify:track:".$songid;
+      $queue->song_id = $songid;
       $queue->title = $result->name;
       $queue->artist = $result->artists[0]->name;
       $queue->album = $result->album->name;
