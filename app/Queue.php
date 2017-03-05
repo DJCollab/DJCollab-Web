@@ -13,8 +13,7 @@ class Queue extends Model
     * @var array
     */
     protected $fillable = [
-        'party_id', 'song_id', 'title', 'artist', 'album', 'album_image',
-        'votes'
+        'party_id', 'song_id', 'title', 'artist', 'album', 'album_image', 'votes',
     ];
 
 
