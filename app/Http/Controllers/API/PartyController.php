@@ -19,22 +19,22 @@ class PartyController extends Controller
   // name, threshold, user-id, password
   public static function CreateParty(Request $request)
   {
-    $party = Party::where('name', $request->header('name'))->first();
+    $party = Party::where('name', $request->input('name'))->first();
     if($party != null){
       return Response::json(['error' => "The party name already exists."], 400);
     }
     $party = new Party();
-    $party->name = $request->header('name');
-    $party->threshold = $request->header('threshold');
-    $user = User::where('id', $request->header('user-id'))->first();
+    $party->name = $request->input('name');
+    $party->threshold = $request->input('threshold');
+    $user = User::where('id', $request->input('user-id'))->first();
     if($user == null)
     {
       return Response::json(['error' => "The user was not found."], 400);
     }
     $party->Host()->associate($user);
     $party->CreatedBy()->associate($user);
-    if($request->header('password') != null){
-      $party->password = Hash::make($request->header('password'));
+    if($request->input('password') != null){
+      $party->password = Hash::make($request->input('password'));
     }
     $party->save();
     return Response::json($party, 200);
@@ -44,21 +44,21 @@ class PartyController extends Controller
   // party-id, name, threshold, user-id, password
   public static function UpdateParty(Request $request)
   {
-    $party = Party::where('id', $request->header('party-id'))->first();
+    $party = Party::where('id', $request->input('party-id'))->first();
     if($party == null){
       return Response::json(['error' => "The requested party was not found."], 404);
     }
-    $party->name = $request->header('name');
-    $party->threshold = $request->header('threshold');
-    $user = User::where('id', $request->header('user-id'))->first();
+    $party->name = $request->input('name');
+    $party->threshold = $request->input('threshold');
+    $user = User::where('id', $request->input('user-id'))->first();
     if($user == null)
     {
       return Response::json(['error' => "The user was not found."], 400);
     }
     $party->Host()->associate($user);
     $party->CreatedBy()->associate($user);
-    if($request->header('password') != null){
-      $party->password = Hash::make($request->header('password'));
+    if($request->input('password') != null){
+      $party->password = Hash::make($request->input('password'));
     }
     $party->save();
     return Response::json($party, 200);
@@ -68,13 +68,13 @@ class PartyController extends Controller
   // party-id, song-id
   public static function AddSong(Request $request)
   {
-    $party = Party::where('id', $request->header('party-id'))->first();
+    $party = Party::where('id', $request->input('party-id'))->first();
     if($party == null){
       return Response::json(['error' => "The requested party was not found."], 404);
     }
     $queue = new Queue();
     $queue->Party()->associate($party);
-    $queue->song_id = $request->header('song-id');
+    $queue->song_id = $request->input('song-id');
     $queue->title = "";
     $queue->artist = "";
     $queue->album = "";
@@ -88,7 +88,7 @@ class PartyController extends Controller
   // party-id, song-id
   public static function DeleteSong(Request $request)
   {
-    $queue = Queue::with('Party')->where('party_id', $request->header('party-id'))->where('song_id', $request->header('song-id'))->first();
+    $queue = Queue::with('Party')->where('party_id', $request->input('party-id'))->where('song_id', $request->input('song-id'))->first();
     if($queue == null){
       return Response::json(['error' => "The requested song was not found."], 404);
     }
@@ -100,7 +100,7 @@ class PartyController extends Controller
   // party-id, song-id
   public static function UpvoteSong(Request $request)
   {
-    $queue = Queue::with('Party')->where('party_id', $request->header('party-id'))->where('song_id', $request->header('song-id'))->first();
+    $queue = Queue::with('Party')->where('party_id', $request->input('party-id'))->where('song_id', $request->input('song-id'))->first();
     if($queue == null){
       return Response::json(['error' => "The requested song was not found."], 404);
     }
@@ -113,7 +113,7 @@ class PartyController extends Controller
   // party-id, song-id
   public static function DownvoteSong(Request $request)
   {
-    $queue = Queue::with('Party')->where('party_id', $request->header('party-id'))->where('song_id', $request->header('song-id'))->first();
+    $queue = Queue::with('Party')->where('party_id', $request->input('party-id'))->where('song_id', $request->input('song-id'))->first();
     if($queue == null){
       return Response::json(['error' => "The requested song was not found."], 404);
     }
@@ -126,13 +126,13 @@ class PartyController extends Controller
   // party-id, user-id
   public static function DeleteParty(Request $request)
   {
-    $party = Party::where('id', $request->header('party-id'))->first();
+    $party = Party::where('id', $request->input('party-id'))->first();
     if($party == null){
       return Response::json(['error' => "The requested party was not found."], 404);
     }
-    $user = User::where('id', $request->header('user-id'))->first();
+    $user = User::where('id', $request->input('user-id'))->first();
     if($party->host_id == $user->id){
-      $queue = Queue::with('Party')->where('party_id', $request->header('party-id'))->get();
+      $queue = Queue::with('Party')->where('party_id', $request->input('party-id'))->get();
       foreach($queue as $song){
         $song->delete();
       }
@@ -147,12 +147,12 @@ class PartyController extends Controller
   public static function Party(Request $request)
   {
     $party = null;
-    if($request->header('party-id') != null)
+    if($request->input('party-id') != null)
     {
-      $party = Party::where('id', $request->header('party-id'))->first();
-    } else if($request->header('name') != null)
+      $party = Party::where('id', $request->input('party-id'))->first();
+    } else if($request->input('name') != null)
     {
-      $party = Party::where('name', $request->header('name'))->first();
+      $party = Party::where('name', $request->input('name'))->first();
     }
     if($party == null){
       return Response::json(['error' => "The requested party was not found."], 404);
@@ -164,7 +164,7 @@ class PartyController extends Controller
   // party-id
   public static function Queue(Request $request)
   {
-    $queue = Queue::where('party_id', $request->header('party-id'))->get();
+    $queue = Queue::where('party_id', $request->input('party-id'))->get();
     if($queue == null){
       return Response::json(['error' => "The requested queue was not found."], 404);
     }
@@ -175,11 +175,11 @@ class PartyController extends Controller
   // party-id, user-id
   public static function JoinParty(Request $request)
   {
-    $party = Party::where('id', $request->header('party-id'))->first();
+    $party = Party::where('id', $request->input('party-id'))->first();
     if($party == null){
       return Response::json(['error' => "The requested party was not found."], 404);
     }
-    $user = User::where('id', $request->header('user-id'))->first();
+    $user = User::where('id', $request->input('user-id'))->first();
     if($user == null){
       return Response::json(['error' => "The requested party was not found."], 404);
     }
