@@ -65,23 +65,41 @@ class PartyController extends Controller
   // party-id, song-id
   public static function AddSong(Request $request)
   {
+
+      $party = Party::where('id', $request->input('party-id'))->first();
+      if($party == null){
+        return Response::json(['error' => "The requested party was not found."], 404);
+      }
+
+
+      $songid = $request->input('song-id');
+
+      $address = "https://api.spotify.com/v1/tracks/";
+      $song = explode(":", $songid);
+      $address .= $song[2];
+
+      $curl = curl_init();
+      curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => $address,
+
+      ));
+      $result = json_decode(curl_exec($curl));
+
     $party = Party::where('id', $request->input('party-id'))->first();
-    if($party == null){
-      return Response::json(['error' => "The requested party was not found."], 404);
-    }
+    if($party != null) {
+      $queue = new Queue();
+      $queue->Party()->associate($party);
+      $queue->song_id = "spotify:track:".$songid;
+      $queue->title = $result->name;
+      $queue->artist = $result->artists[0]->name;
+      $queue->album = $result->album->name;
+      $queue->album_image = $result->album->images[0]->url;
+      $queue->votes = 0;
+      $queue->save();
+  }
 
-
-    $queue = new Queue();
-    $queue->Party()->associate($party);
-    $queue->song_id = $request->input('song-id');
-    $queue->title = "";
-    $queue->artist = "";
-    $queue->album = "";
-    $queue->album_image = "";
-    $queue->votes = 0;
-    $queue->save();
-
-    return Response::json($response->getStatusCode(), 200);
+    return Response::json($queue, 200);
   }
   // Deletes a song from a party
   // party-id, song-id
