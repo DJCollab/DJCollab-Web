@@ -10,6 +10,7 @@ use Validator;
 use App\Party;
 use App\Queue;
 use App\User;
+use Hash;
 
 class PartyController extends Controller
 {
