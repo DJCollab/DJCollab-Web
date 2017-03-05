@@ -94,6 +94,7 @@ class MainController extends Controller
         $queue->album_image = $result->album->images[0]->url;
         $queue->votes = 0;
         $queue->save();
+        flash('Song Added!', 'success');
         return redirect()->back();
       }
       flash('Error! Invalid Party!', 'danger');
