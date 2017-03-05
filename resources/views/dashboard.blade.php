@@ -94,29 +94,24 @@
     <div class="inner columns aligned">
         <div class="span-3-5">
             <h3 class="major">Your Profile</h3>
-            <form method="POST" action="{{ url('dashboard/create') }}">
+            <form method="POST" action="{{ url('dashboard/profile/update') }}">
                 {{ csrf_field() }}
                 <div class="field half">
                     <label for="demo-name">Name</label>
-                    <input type="text" name="createname" id="createname" value="" placeholder="Fire Mixtape" required />
+                    <input type="text" name="name" id="username" value="{{ $user->name}}" placeholder="Name" />
                 </div>
                 <div class="field half">
-                    <label for="demo-name">Skip Song Threshold</label>
-                    <input type="text" name="createthreshold" id="createthreshold" value="" placeholder="5" required />
+                    <label for="demo-name">Email</label>
+                    <input type="text" name="email" id="useremail" value="{{ $user->email }}" placeholder="email" />
                 </div>
-                <div class="field full">
-                    <label for="demo-email">Password</label>
-                    <input type="password" name="createpassword" id="createpassword" value="" placeholder="secret" required />
+                <div class="field half">
+                    <img src="{{ $user->avatar}}">
                 </div>
-                <div class="field full">
-                    <label for="demo-email">Confirm Password</label>
-                    <input type="password" name="createcpassword" id="createcpassword" value="" placeholder="secret" required />
-                </div>
+
 
 
                 <ul class="actions">
-                    <li><input type="submit" value="Create Party" class="special color2" /></li>
-                    <li><input type="reset" value="Reset" /></li>
+                    <li><input type="submit" value="Update Profile" class="special color2" /></li>
                 </ul>
             </form>
         </div>

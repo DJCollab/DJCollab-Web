@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('dashboard/create', 'MainController@create');
     Route::get('/dashboard/party/{id}', 'MainController@ViewParty');
     Route::get('/dashboard/party/{id}/add/{songid}', 'MainController@AddSong');
+    Route::post('/dashboard/profile/update', 'MainController@UpdateProfile');
  });
 
 Route::get('login', 'Auth\AuthController@redirectToProvider');
