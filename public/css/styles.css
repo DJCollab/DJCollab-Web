@@ -68,3 +68,7 @@ nav ul li a:hover {
   font-size: 12px;
   margin: 0px 0px 0px 10px;
 }
+
+.img-align {
+    vertical-align:top;
+}
