@@ -94,7 +94,7 @@ class PartyController extends Controller
       $queue->title = $result->name;
       $queue->artist = $result->artists[0]->name;
       $queue->album = $result->album->name;
-      $queue->album_image = $result->album->images[0]->url;
+      $queue->album_image = $result->album->images[2]->url;
       $queue->votes = 0;
       $queue->save();
   }

@@ -51,6 +51,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Title</th>
                             <th>Artist</th>
                             <th>Album</th>
@@ -59,6 +60,7 @@
                     <tbody>
                       @foreach($queue as $song)
                         <tr>
+                            <td class="img-align"><img src="{{ $song->album_image }}"></td>
                             <td>{{ $song->title }}</td>
                             <td>{{ $song->artist }}</td>
                             <td>{{ $song->album }}</td>
@@ -67,7 +69,7 @@
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colspan="2"></td>
+                        <td colspan="3"></td>
                         <td class="text-center"><a href="{{ $queue->previousPageUrl() }}" class="button special color1 circle icon fa-angle-left">Prev</a><a href="{{ $queue->nextPageUrl() }}" class="button special color1 circle icon fa-angle-right">Next</a></td>
                       </tr>
                     </tfoot>
