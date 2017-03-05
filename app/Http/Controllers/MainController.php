@@ -61,7 +61,7 @@ class MainController extends Controller
     {
       $party = Party::where('id', $id)->first();
       if($party != null) {
-        $queue = Queue::where('party_id', $id)->paginate(5);
+        $queue = Queue::where('party_id', $id)->paginate(4);
         return view('party', compact('party', 'queue'));
       }
       flash('Error! Invalid Party!', 'danger');
