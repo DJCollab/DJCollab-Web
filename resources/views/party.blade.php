@@ -30,7 +30,7 @@
                 {{ csrf_field() }}
                 <div class="field full">
                     <label for="demo-name">Song Name</label>
-                    <input type="text" name="songname" id="songname" value="" placeholder="Pillow Talk" required />
+                    <input type="text" name="songname" id="songname" value="" placeholder="Pillow Talking" required />
                 </div>
                 <div class="table-wrapper search-results">
                     <table>

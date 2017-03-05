@@ -21,8 +21,8 @@ class MainController extends Controller
     public function dashboard()
     {
         $parties = Party::paginate(5);
-
-        return view('dashboard', compact('parties'));
+        $user = Auth::user();
+        return view('dashboard', compact('parties', 'user'));
     }
 
     public function create(Request $request)
@@ -100,4 +100,24 @@ class MainController extends Controller
       flash('Error! Invalid Party!', 'danger');
       return redirect('MainController@dashboard');
     }
+
+
+    public function UpdateProfile(Request $request)
+    {
+
+        User::where('id', Auth::user()->id)
+            ->update(['name' => $request->input('name'),
+            'email' => $request->input('email')]);
+
+        flash('Updated Profile!', 'success');
+        return redirect()->back();
+    }
+
+
+
+
+
+
+
+
 }
