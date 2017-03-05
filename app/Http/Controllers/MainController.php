@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Party;
 use Auth;
 use Route;
+use App\User;
 
 class MainController extends Controller
 {
@@ -25,50 +26,31 @@ class MainController extends Controller
     {
         $this->validate($request, [
             "createname" => "required|string|max:255",
-            "createpassword" => "string|max:255",
-            "createcpassword" => "string|max:255",
             "createthreshold" => "integer"
         ]);
-
-
-        $request = Request::create('/api/party', 'PUT', array(
-             "name"     => $request->createname,
-             "threshold"    => $request->createthreshold,
-             "user-id"    => Auth::user()->id
-        ));
-        dd($request);
-        $response = Route::dispatch($request);
-        //return $response;
-        dd($response);
-
-
-
-
+        
+        $party = Party::where('name', $request->input('createname'))->first();
+        if($party != null){
+            flash('The party name already exists.', 'danger');
+            return redirect()->action("MainController@dashboard");
+        }
         $party = new Party();
-        $party->name = $request->createname;
-        $party->threshold = $request->createthreshold;
-        $party->CreatedBy()->associate(Auth::user()->id);
-        $party->Host()->associate(Auth::user()->id);
-
-
-        if($request->input('createpassword') != "" && $request->input('createcpassword') != "")
+        $party->name = $request->input('createname');
+        $party->threshold = $request->input('createthreshold');
+        $user = User::where('id', Auth::user()->id)->first();
+        if($user == null)
         {
-            if(strlen($request->input('createpassword')) >= 5)
-            {
-              if ($request->input('createcpassword') == $request->input('createpassword'))
-              {
-                $party->password = bcrypt($request->input('createpassword'));
-              } else
-              {
-                  flash('Your current password does not match the one you typed in.', 'danger');
-                  return redirect()->action('MainController@dashboard');
-              }
-            }
-            else
-            {
-                flash('Your password must be longer than five characters.');
+            flash('The user was not found.', 'danger');
+            return redirect()->action('MainController@dashboard');
+        }
+        $party->Host()->associate($user);
+        $party->CreatedBy()->associate($user);
+        if($request->input('createpassword') != null){
+            if($request->input('createpassword') != $request->input('createcpassword')) {
+                flash('Your current password does not match the one you typed in.', 'danger');
                 return redirect()->action('MainController@dashboard');
             }
+            $party->password = Hash::make($request->input('createpassword'));
         }
         $party->save();
 

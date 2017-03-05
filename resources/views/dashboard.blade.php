@@ -10,11 +10,7 @@
             <div class="alert alert-{{ session('flash_notification.level') }}">
                 <h3>{!! session('flash_notification.message') !!}</h3>
             </div>
-        @elseif(count($errors) > 0)
-            <div class="alert alert-danger">
-                <h3>Error creating the party!</h3>
-            </div>
-        @endif
+            @endif
 
         <h1 class="major">Dashboard</h1>
         <p>You can join parties and create parties from here. You can also add songs to a party! Click the button below to try it out!</p>
