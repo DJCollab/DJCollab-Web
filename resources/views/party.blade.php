@@ -80,7 +80,6 @@
 
 
 <!-- Copyright -->
-<div class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</div>
 
 @endsection
 @section('footer')
