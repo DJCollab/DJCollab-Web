@@ -3,6 +3,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client;
 use Response;
 use Validator;
 use App\Party;
@@ -67,6 +69,8 @@ class PartyController extends Controller
     if($party == null){
       return Response::json(['error' => "The requested party was not found."], 404);
     }
+
+
     $queue = new Queue();
     $queue->Party()->associate($party);
     $queue->song_id = $request->input('song-id');
@@ -76,7 +80,8 @@ class PartyController extends Controller
     $queue->album_image = "";
     $queue->votes = 0;
     $queue->save();
-    return Response::json($queue, 200);
+
+    return Response::json($response->getStatusCode(), 200);
   }
   // Deletes a song from a party
   // party-id, song-id

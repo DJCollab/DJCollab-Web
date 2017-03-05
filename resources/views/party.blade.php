@@ -53,18 +53,21 @@
                         <tr>
                             <th>Title</th>
                             <th>Artist</th>
+                            <th>Album</th>
                         </tr>
                     </thead>
                     <tbody>
                       @foreach($queue as $song)
                         <tr>
-                            <td>{{ $song->song_id }}</td>
+                            <td>{{ $song->title }}</td>
+                            <td>{{ $song->artist }}</td>
+                            <td>{{ $song->album }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colspan="1"></td>
+                        <td colspan="2"></td>
                         <td class="text-center"><a href="{{ $queue->previousPageUrl() }}" class="button special color1 circle icon fa-angle-left">Prev</a><a href="{{ $queue->nextPageUrl() }}" class="button special color1 circle icon fa-angle-right">Next</a></td>
                       </tr>
                     </tfoot>
