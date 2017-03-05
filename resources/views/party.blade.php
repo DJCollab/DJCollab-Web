@@ -22,20 +22,22 @@
     </div>
 </section>
 
-<section class="panel color2-alt" id="first">
+<section class="panel color2-alt add-song" id="first">
     <div class="inner columns aligned">
-        <div class="span-3-4">
+        <div class="span-3">
             <h3 class="major">Add a Song</h3>
-            <form method="POST" action="{{ url('dashboard/party/'.$party->id.'/add/') }}">
+            <form method="POST" action="">
                 {{ csrf_field() }}
                 <div class="field full">
                     <label for="demo-name">Song Name</label>
                     <input type="text" name="songname" id="songname" value="" placeholder="Pillow Talk" required />
                 </div>
-                <ul class="actions">
-                    <li><input type="submit" value="Search" class="special color2" /></li>
-                    <li><input type="reset" value="Reset" /></li>
-                </ul>
+                <div class="table-wrapper search-results">
+                    <table>
+                        <tbody id="resultsList">
+                        </tbody>
+                    </table>
+                </div>
             </form>
         </div>
     </div>
@@ -49,21 +51,21 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
-
-                            <th class="text-center">View</th>
+                            <th>Title</th>
+                            <th>Artist</th>
                         </tr>
                     </thead>
                     <tbody>
+                      @foreach($queue as $song)
                         <tr>
-                            <td> $party->name</td>
-                            <td class="text-center"><a href="#" class="button small color1">View</a></td>
+                            <td>{{ $song->song_id }}</td>
                         </tr>
+                        @endforeach
                     </tbody>
                     <tfoot>
                       <tr>
                         <td colspan="1"></td>
-                        <td class="text-center"><a href="#" class="button special color1 circle icon fa-angle-left">Prev</a><a href="#" class="button special color1 circle icon fa-angle-right">Next</a></td>
+                        <td class="text-center"><a href="{{ $queue->previousPageUrl() }}" class="button special color1 circle icon fa-angle-left">Prev</a><a href="{{ $queue->nextPageUrl() }}" class="button special color1 circle icon fa-angle-right">Next</a></td>
                       </tr>
                     </tfoot>
                 </table>
@@ -81,5 +83,15 @@
 @section('footer')
 <script>
 $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+</script>
+<script src="/js/spotify.js"></script>
+<script>
+$('#songname').keypress(function (e) {
+  if (e.which == 13) {
+    SearchSongs($("#songname").val());
+    return false;
+  }
+});
+$link = "{{ url('dashboard/party/'.$party->id.'/add/') }}";
 </script>
 @endsection

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client;
 use App\Party;
 use Auth;
 use Route;
 use App\User;
+use App\Queue;
 
 class MainController extends Controller
 {
@@ -56,26 +57,33 @@ class MainController extends Controller
 
     }
 
-    public function ViewParty($id = null)
+    public function ViewParty($id)
     {
-        if($id != null) {
-            $party = Party::where('id', $id)->first();
-            return view('party', compact('party'));
-        }
-        flash('Error! Invalid ID!', 'danger');
-        return redirect('MainController@dashboard');
+      $party = Party::where('id', $id)->first();
+      if($party != null) {
+        $queue = Queue::where('party_id', $id)->paginate(5);
+        return view('party', compact('party', 'queue'));
+      }
+      flash('Error! Invalid Party!', 'danger');
+      return redirect('MainController@dashboard');
     }
 
-    public function SearchSong($id = null)
+    public function AddSong($id, $songid)
     {
-        
-        return redirect()->action('MainController@ViewParty', compact('id'));
+      $party = Party::where('id', $id)->first();
+      if($party != null) {
+        $queue = new Queue();
+        $queue->Party()->associate($party);
+        $queue->song_id = "spotify:track:".$songid;
+        $queue->title = "";
+        $queue->artist = "";
+        $queue->album = "";
+        $queue->album_image = "";
+        $queue->votes = 0;
+        $queue->save();
+        return redirect()->back();
+      }
+      flash('Error! Invalid Party!', 'danger');
+      return redirect('MainController@dashboard');
     }
-
-
-
-
-
-
-
 }
